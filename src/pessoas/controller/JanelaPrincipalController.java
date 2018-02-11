@@ -1,9 +1,7 @@
-package pessoas.view;
+package pessoas.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +17,9 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private TableView<Pessoa> tabelaPessoas;
+
+    @FXML
+    private TableColumn<Pessoa, String> colunaId;
 
     @FXML
     private TableColumn<Pessoa, String> colunaNome;
@@ -68,6 +69,7 @@ public class JanelaPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tabelaPessoas.setItems(listaPessoas);
+        colunaId.setCellValueFactory(dadoCelula -> dadoCelula.getValue().idProperty());
         colunaNome.setCellValueFactory(dadoCelula -> dadoCelula.getValue().nomeProperty());
         colunaCpf.setCellValueFactory(dadoCelula -> dadoCelula.getValue().cpfProperty());
         colunaTelefone.setCellValueFactory(dadoCelula -> dadoCelula.getValue().telefoneProperty());
@@ -85,8 +87,43 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private void acaoAdicionarPessoa() {
-        MainApp.iniciaEdicaoDialog();
-        atualizaTabela();
+        try {
+            Pessoa pessoa = new Pessoa();
+            boolean ok = MainApp.iniciaEdicaoDialog(pessoa);
+            if (ok) {
+                pessoa.adicionaPessoa();
+                listaPessoas.add(pessoa);
+            }
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de atualização da tabela");
+            alert.setHeaderText("Erro no cadastro");
+            alert.setContentText("Houve um erro no cadastro dos novos dados.\n"
+                    + "Mensagem de erro: " + ex.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void acaoEditarPessoa() {
+        try {
+            Pessoa pessoa = tabelaPessoas.getSelectionModel().getSelectedItem();
+            int index = tabelaPessoas.getSelectionModel().getSelectedIndex();
+            if (pessoa != null) {
+                boolean ok = MainApp.iniciaEdicaoDialog(pessoa);
+                if (ok) {
+                    pessoa.editaPessoa();
+                    listaPessoas.set(index, pessoa);
+                }
+            }
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de atualização da tabela");
+            alert.setHeaderText("Erro na edição");
+            alert.setContentText("Houve um erro na edição da pessoa.\n"
+                    + "Mensagem de erro: " + ex.getMessage());
+            alert.showAndWait();
+        }
     }
 
     private void atualizaTabela() {

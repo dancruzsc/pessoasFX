@@ -1,12 +1,13 @@
-package pessoas.view;
+package pessoas.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import pessoas.model.Pessoa;
@@ -43,38 +44,42 @@ public class EdicaoDialogController implements Initializable {
     @FXML
     private TextField txCidade;
 
+    private static final ObservableList<String> estados = FXCollections.
+            observableArrayList("AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES",
+                    "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                    "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO");
+
     @FXML
-    private TextField txUf;
+    private ComboBox<String> txUf;
 
     private Stage stage;
     private boolean OkClicked = false;
+    private Pessoa pessoa;
 
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txUf.setItems(estados);
         mostrarPessoa(null);
     }
 
     @FXML
     private void acaoBotaoOK() {
         if (validarDados()) {
-            try {
-                Pessoa pessoa = new Pessoa(txNome.getText(), txCpf.getText(),
-                        txTelefone.getText(), txEmail.getText(), txCep.getText(),
-                        txLogradouro.getText(), txNumEndereco.getText(),
-                        txComplemento.getText(), txBairro.getText(),
-                        txCidade.getText(), txUf.getText());
-                Pessoa.adicionaPessoa(pessoa);
-                OkClicked = true;
-                stage.close();
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro de atualização da tabela");
-                alert.setHeaderText("Erro no cadastro");
-                alert.setContentText("Houve um erro no cadastro dos novos dados.\n"
-                        + "Mensagem de erro: " + ex.getMessage());
-                alert.showAndWait();
-            }
+            pessoa.setNome(txNome.getText());
+            pessoa.setCpf(txCpf.getText());
+            pessoa.setTelefone(txTelefone.getText());
+            pessoa.setEmail(txEmail.getText());
+            pessoa.setCep(txCep.getText());
+            pessoa.setLogradouro(txLogradouro.getText());
+            pessoa.setNumEndereco(txNumEndereco.getText());
+            pessoa.setComplemento(txComplemento.getText());
+            pessoa.setBairro(txBairro.getText());
+            pessoa.setCidade(txCidade.getText());
+            pessoa.setUf(txUf.getSelectionModel().getSelectedItem());
+
+            OkClicked = true;
+            stage.close();
         }
     }
 
@@ -96,15 +101,15 @@ public class EdicaoDialogController implements Initializable {
 
         if (verificaCampoVazio(txCpf)) {
             msgErro += "Preencha o CPF!\n";
-
-        } else if (txCpf.getText().length() != 11) {
-            msgErro += "CPF é composto por 11 algarismos; verifique o CPF!\n";
         } else {
             try {
                 Long.parseLong(txCpf.getText());
                 if (validarCPF(txCpf.getText()) == false) {
                     msgErro += "CPF inválido!\n";
+                } else if (txCpf.getText().length() != 11) {
+                    msgErro += "CPF é composto por 11 algarismos; verifique o CPF!\n";
                 }
+
             } catch (NumberFormatException e) {
                 msgErro += "CPF deve ser composto por somente números!\n";
             }
@@ -144,10 +149,6 @@ public class EdicaoDialogController implements Initializable {
             msgErro += "Preencha a cidade!\n";
         }
 
-        if (verificaCampoVazio(txUf)) {
-            msgErro += "Preencha o estado!\n";
-        }
-
         if (msgErro.length() == 0) {
             return true;
         } else {
@@ -162,7 +163,7 @@ public class EdicaoDialogController implements Initializable {
     }
 
     private void mostrarPessoa(Pessoa pessoa) {
-        if (pessoa != null) {
+        if (pessoa != null)  {
             txNome.setText(pessoa.getNome());
             txCpf.setText(pessoa.getCpf());
             txTelefone.setText(pessoa.getTelefone());
@@ -173,7 +174,6 @@ public class EdicaoDialogController implements Initializable {
             txComplemento.setText(pessoa.getComplemento());
             txBairro.setText(pessoa.getBairro());
             txCidade.setText(pessoa.getCidade());
-            txUf.setText(pessoa.getUf());
         } else {
             txNome.setText("");
             txCpf.setText("");
@@ -185,7 +185,6 @@ public class EdicaoDialogController implements Initializable {
             txComplemento.setText("");
             txBairro.setText("");
             txCidade.setText("");
-            txUf.setText("");
         }
     }
 
@@ -213,12 +212,7 @@ public class EdicaoDialogController implements Initializable {
         acum2 %= 11;
         dv2 = acum2 < 2 ? 0 : 11 - acum2;
 
-        if (dv1 == valores[9] && dv2 == valores[10]) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return (dv1 == valores[9] && dv2 == valores[10]);
     }
 
     public boolean isOkClicked() {
@@ -231,5 +225,21 @@ public class EdicaoDialogController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+
+        txNome.setText(pessoa.getNome());
+        txCpf.setText(pessoa.getCpf());
+        txTelefone.setText(pessoa.getTelefone());
+        txEmail.setText(pessoa.getEmail());
+        txCep.setText(pessoa.getCep());
+        txLogradouro.setText(pessoa.getLogradouro());
+        txNumEndereco.setText(pessoa.getNumEndereco());
+        txComplemento.setText(pessoa.getComplemento());
+        txBairro.setText(pessoa.getBairro());
+        txCidade.setText(pessoa.getCidade());
+        txUf.setValue(pessoa.getUf());
     }
 }

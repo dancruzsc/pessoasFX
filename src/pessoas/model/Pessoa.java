@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import pessoas.ConnectionFactory;
 
 public class Pessoa {
 
+    private StringProperty id;
     private StringProperty nome;
     private StringProperty cpf;
     private StringProperty telefone;
@@ -24,14 +26,25 @@ public class Pessoa {
     private StringProperty uf;
 
     public Pessoa() {
+        id = new SimpleStringProperty();
+        nome = new SimpleStringProperty();
+        cpf = new SimpleStringProperty();
+        telefone = new SimpleStringProperty();
+        email = new SimpleStringProperty();
+        cep = new SimpleStringProperty();
+        logradouro = new SimpleStringProperty();
+        numEndereco = new SimpleStringProperty();
+        complemento = new SimpleStringProperty();
+        bairro = new SimpleStringProperty();
+        cidade = new SimpleStringProperty();
+        uf = new SimpleStringProperty();
     }
-    
-    
 
-    public Pessoa(String nome, String cpf, String telefone, String email,
+    public Pessoa(String id, String nome, String cpf, String telefone, String email,
             String cep, String logradouro, String numEndereco,
             String complemento, String bairro, String cidade, String uf) {
 
+        this.id = new SimpleStringProperty(id);
         this.nome = new SimpleStringProperty(nome);
         this.cpf = new SimpleStringProperty(cpf);
         this.telefone = new SimpleStringProperty(telefone);
@@ -55,6 +68,7 @@ public class Pessoa {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
+            String id = rs.getString("id");
             String nome = rs.getString("nome");
             String cpf = rs.getString("cpf");
             String telefone = rs.getString("telefone");
@@ -67,8 +81,10 @@ public class Pessoa {
             String cidade = rs.getString("cidade");
             String uf = rs.getString("uf");
 
-            Pessoa p = new Pessoa(nome, cpf, telefone, email, cep, logradouro,
+            Pessoa p = new Pessoa(id, nome, cpf, telefone, email, cep, logradouro,
                     numEndereco, complemento, bairro, cidade, uf);
+
+            p.setId(id);
 
             pessoas.add(p);
         }
@@ -79,31 +95,84 @@ public class Pessoa {
 
         return pessoas;
     }
-    
-    public static void adicionaPessoa(Pessoa pessoa) throws Exception {
-        
+
+    public void adicionaPessoa() throws Exception {
+
         Connection c = new ConnectionFactory().getConnection();
         String query = "insert into pessoas (nome, cpf, telefone, email, cep, "
                 + "logradouro, numEndereco, complemento, bairro, cidade, uf) "
                 + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
         PreparedStatement stmt = c.prepareStatement(query);
-        stmt.setString(1, pessoa.getNome());
-        stmt.setString(2, pessoa.getCpf());
-        stmt.setString(3, pessoa.getTelefone());
-        stmt.setString(4, pessoa.getEmail());
-        stmt.setString(5, pessoa.getCep());
-        stmt.setString(6, pessoa.getLogradouro());
-        stmt.setString(7, pessoa.getNumEndereco());
-        stmt.setString(8, pessoa.getComplemento());
-        stmt.setString(9, pessoa.getBairro());
-        stmt.setString(10, pessoa.getCidade());
-        stmt.setString(11, pessoa.getUf());
+        stmt.setString(1, nome.get());
+        stmt.setString(2, cpf.get());
+        stmt.setString(3, telefone.get());
+        stmt.setString(4, email.get());
+        stmt.setString(5, cep.get());
+        stmt.setString(6, logradouro.get());
+        stmt.setString(7, numEndereco.get());
+        stmt.setString(8, complemento.get());
+        stmt.setString(9, bairro.get());
+        stmt.setString(10, cidade.get());
+        stmt.setString(11, uf.get());
+
+        stmt.executeUpdate();
         
-        stmt.execute();
+        stmt = c.prepareStatement("select last_insert_id() as id");
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) id.set(rs.getString("id"));
+        
+        rs.close();
         stmt.close();
         c.close();
+    }
+    
+    public void editaPessoa() throws Exception {
+        Connection c = new ConnectionFactory().getConnection();
         
+        String query = "update pessoas set nome = ?, cpf = ?, telefone = ?, "
+                + "email = ?, cep = ?, logradouro = ?, numEndereco = ?, "
+                + "complemento = ?, bairro = ?, cidade = ?, uf = ? where id = ?";
+        
+        PreparedStatement stmt = c.prepareStatement(query);
+        stmt.setString(1, nome.get());
+        stmt.setString(2, cpf.get());
+        stmt.setString(3, telefone.get());
+        stmt.setString(4, email.get());
+        stmt.setString(5, cep.get());
+        stmt.setString(6, logradouro.get());
+        stmt.setString(7, numEndereco.get());
+        stmt.setString(8, complemento.get());
+        stmt.setString(9, bairro.get());
+        stmt.setString(10, cidade.get());
+        stmt.setString(11, uf.get());
+        stmt.setString(12, id.get());
+        
+        stmt.executeUpdate();
+        
+        stmt.close();
+        c.close();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null) return false;
+        if(getClass() != o.getClass()) return false;
+        
+        Pessoa p = (Pessoa) o;
+        return Objects.equals(id.get(), p.id.get()) && 
+                Objects.equals(nome.get(), p.nome.get()) &&
+                Objects.equals(cpf.get(), p.cpf.get()) &&
+                Objects.equals(telefone.get(), p.telefone.get()) &&
+                Objects.equals(email.get(), p.email.get()) &&
+                Objects.equals(cep.get(), p.cep.get()) &&
+                Objects.equals(logradouro.get(), p.logradouro.get()) &&
+                Objects.equals(numEndereco.get(), p.numEndereco.get()) &&
+                Objects.equals(complemento.get(), p.complemento.get()) &&
+                Objects.equals(bairro.get(), p.bairro.get()) &&
+                Objects.equals(cidade.get(), p.cidade.get()) &&
+                Objects.equals(uf.get(), p.uf.get());
     }
 
     public String getNome() {
@@ -236,6 +305,18 @@ public class Pessoa {
 
     public StringProperty ufProperty() {
         return uf;
+    }
+
+    public String getId() {
+        return id.get();
+    }
+
+    public void setId(String id) {
+        this.id.set(id);
+    }
+
+    public StringProperty idProperty() {
+        return id;
     }
 
 }

@@ -10,7 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import pessoas.view.EdicaoDialogController;
+import pessoas.controller.EdicaoDialogController;
+import pessoas.model.Pessoa;
 
 public class MainApp extends Application {
 
@@ -46,7 +47,7 @@ public class MainApp extends Application {
         }
     }
 
-    public static boolean iniciaEdicaoDialog() {
+    public static boolean iniciaEdicaoDialog(Pessoa pessoa) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/EdicaoDialog.fxml"));
@@ -62,6 +63,7 @@ public class MainApp extends Application {
 
             EdicaoDialogController controller = loader.getController();
             controller.setStage(dialog);
+            controller.setPessoa(pessoa);
 
             dialog.showAndWait();
             return controller.isOkClicked();
