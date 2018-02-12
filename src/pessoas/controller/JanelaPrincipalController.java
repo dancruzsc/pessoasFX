@@ -1,6 +1,7 @@
 package pessoas.controller;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import pessoas.MainApp;
@@ -108,12 +110,10 @@ public class JanelaPrincipalController implements Initializable {
     private void acaoEditarPessoa() {
         try {
             Pessoa pessoa = tabelaPessoas.getSelectionModel().getSelectedItem();
-            int index = tabelaPessoas.getSelectionModel().getSelectedIndex();
             if (pessoa != null) {
                 boolean ok = MainApp.iniciaEdicaoDialog(pessoa);
                 if (ok) {
                     pessoa.editaPessoa();
-                    listaPessoas.set(index, pessoa);
                 }
             }
         } catch (Exception ex) {
@@ -123,6 +123,28 @@ public class JanelaPrincipalController implements Initializable {
             alert.setContentText("Houve um erro na edição da pessoa.\n"
                     + "Mensagem de erro: " + ex.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void acaoRemoverPessoa() {
+        try {
+            Pessoa pessoa = tabelaPessoas.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação de exclusão");
+            alert.setHeaderText("Alerta de exclusão de pessoa");
+            alert.setContentText("Tem certeza de que deseja remover esta pessoa?\n"
+                    + "Esta ação é irreversível");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                pessoa.removePessoa();
+                listaPessoas.remove(pessoa);
+            }
+
+        } catch (Exception ex) {
+
         }
     }
 

@@ -154,6 +154,20 @@ public class Pessoa {
         c.close();
     }
     
+    public void removePessoa() throws Exception {
+        Connection c = new ConnectionFactory().getConnection();
+        
+        String query = "delete from pessoas where id = ?";
+        PreparedStatement stmt = c.prepareStatement(query);
+        
+        stmt.setString(1, id.get());
+        
+        stmt.executeUpdate();
+        
+        stmt.close();
+        c.close();
+    }
+    
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;

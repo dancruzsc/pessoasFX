@@ -1,7 +1,15 @@
 package pessoas.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -88,6 +96,69 @@ public class EdicaoDialogController implements Initializable {
         stage.close();
     }
 
+    @FXML
+    private void acaoBotaoCEP() {
+        try {
+            Map<String, String> dados = parseJSON(getInfosAPI(txCep.getText()));
+
+            if (dados.containsKey("erro")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("CEP Incorreto");
+                alert.setHeaderText("CEP digitado está incorreto");
+                alert.setContentText("Verifique seu CEP e tente novamente");
+                alert.showAndWait();
+                return;
+            }
+
+            txLogradouro.setText(dados.get("logradouro") + " " + dados.get("complemento"));
+            txBairro.setText(dados.get("bairro"));
+            txCidade.setText(dados.get("localidade"));
+            txUf.setValue(dados.get("uf"));
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de API");
+            alert.setHeaderText("Ocorreu um erro na consulta dos dados");
+            alert.setContentText("Tente novamente mais tarde");
+        }
+    }
+
+    // Transforma a string estruturada em um HashMap.
+    private HashMap<String, String> parseJSON(String json) throws Exception {
+
+        json = json.replaceAll("[{}]", "");
+
+        Pattern keyValue = Pattern.compile("\"\\w*\": ?\"(\\p{L}|\\s|-|\\d)*\"");
+        Matcher m = keyValue.matcher(json);
+
+        HashMap<String, String> properties = new HashMap<>();
+
+        while (m.find()) {
+            String result = m.group();
+            result = result.replaceAll(": ", ":");
+            String[] values = result.split(":");
+            for(int i = 0; i < values.length; i++) {
+                values[i]  = values[i].replaceAll("[\"|,]", "");
+            }
+            properties.put(values[0], values[1]);
+        }
+
+        return properties;
+    }
+
+    // Consulta a API pública. Retorna o JSON resultante ou uma exceção em caso de erro. 
+    private String getInfosAPI(String cep) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        URL api = new URL("http://viacep.com.br/ws/" + cep + "/json");
+        BufferedReader br = new BufferedReader(new InputStreamReader(api.openStream()));
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        br.close();
+        return sb.toString();
+    }
+
     private boolean verificaCampoVazio(TextField campo) {
         return campo.getText() == null || campo.getText().length() == 0;
     }
@@ -163,7 +234,7 @@ public class EdicaoDialogController implements Initializable {
     }
 
     private void mostrarPessoa(Pessoa pessoa) {
-        if (pessoa != null)  {
+        if (pessoa != null) {
             txNome.setText(pessoa.getNome());
             txCpf.setText(pessoa.getCpf());
             txTelefone.setText(pessoa.getTelefone());

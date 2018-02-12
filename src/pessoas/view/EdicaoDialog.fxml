@@ -94,7 +94,7 @@
             <HBox prefHeight="33.0" prefWidth="235.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <TextField fx:id="txCep" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="237.0" promptText="Informe apenas números" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Consultar CEP" />
+                  <Button mnemonicParsing="false" onAction="#acaoBotaoCEP" prefHeight="25.0" prefWidth="96.0" text="Consultar CEP" />
                </children>
                <GridPane.margin>
                   <Insets top="4.0" />
@@ -103,7 +103,7 @@
             <TextField fx:id="txLogradouro" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="txBairro" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="txCidade" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ComboBox  fx:id="txUf" prefHeight="25.0" prefWidth="401.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ComboBox fx:id="txUf" prefHeight="25.0" prefWidth="401.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="txNumEndereco" prefHeight="25.0" prefWidth="452.0" promptText="Informe apenas números" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField fx:id="txComplemento" prefHeight="0.0" prefWidth="349.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
          </children>

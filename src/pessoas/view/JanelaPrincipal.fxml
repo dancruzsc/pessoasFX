@@ -18,7 +18,7 @@
                <children>
                   <Button fx:id="btAdicionar" mnemonicParsing="false" onAction="#acaoAdicionarPessoa" text="Adicionar..." />
                   <Button fx:id="btEditar" mnemonicParsing="false" onAction="#acaoEditarPessoa" text="Editar..." />
-                  <Button fx:id="btRemover" mnemonicParsing="false" text="Remover..." />
+                  <Button fx:id="btRemover" mnemonicParsing="false" onAction="#acaoRemoverPessoa" text="Remover..." />
                </children>
             </HBox>
             <HBox layoutX="403.0" layoutY="2.0" spacing="10.0" AnchorPane.rightAnchor="0.0">
