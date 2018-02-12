@@ -1,5 +1,7 @@
 package pessoas.controller;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -12,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
 import pessoas.MainApp;
 import pessoas.model.Pessoa;
 
@@ -64,6 +67,9 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private Button btRemover;
+
+    @FXML
+    private Button btSalvar;
 
     private ObservableList<Pessoa> listaPessoas = FXCollections.observableArrayList();
 
@@ -142,8 +148,42 @@ public class JanelaPrincipalController implements Initializable {
                 pessoa.removePessoa();
                 listaPessoas.remove(pessoa);
             }
+        } catch (Exception ex) {
+
+        }
+    }
+
+    @FXML
+    private void acaoSalvarTxt() {
+        try {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Escolha o caminho para salvar o arquivo");
+            chooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Arquivos de texto (.txt)", "*.txt"));
+            File arquivo = chooser.showSaveDialog(MainApp.getPrimaryStage());
+
+            if (arquivo != null) {
+                FileWriter fw = new FileWriter(arquivo);
+                for (Pessoa p : listaPessoas) {
+                    fw.write(p.pessoaString() + System.lineSeparator());
+                }
+                fw.close();
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Arquivo salvo com sucesso");
+                alert.setHeaderText("O arquivo de texto foi salvo com sucesso");
+                alert.setContentText("Caminho do arquivo: " + arquivo.getAbsolutePath());
+                alert.showAndWait();
+                
+            } else {
+                throw new Exception();
+            }
 
         } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro na gravação do arquivo!");
+            alert.setHeaderText("Ocorreu um erro na gravação do arquivo de texto.");
+            alert.setContentText("Mensagem de erro: " + ex.getMessage());
 
         }
     }

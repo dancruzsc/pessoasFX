@@ -168,6 +168,25 @@ public class Pessoa {
         c.close();
     }
     
+    public String pessoaString() {
+        String pessoa = "";
+        
+        pessoa += id.get() + " # ";
+        pessoa += nome.get() + " # ";
+        pessoa += cpf.get() + " # ";
+        pessoa += telefone.get() + " # ";
+        pessoa += email.get() + " # ";
+        pessoa += cep.get() + " # ";
+        pessoa += logradouro.get() + " # ";
+        pessoa += numEndereco.get() + " # ";
+        pessoa += complemento.get() + " # ";
+        pessoa += bairro.get() + " # ";
+        pessoa += cidade.get() + " # ";
+        pessoa += uf.get();
+        
+        return pessoa;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -332,5 +351,4 @@ public class Pessoa {
     public StringProperty idProperty() {
         return id;
     }
-
 }
