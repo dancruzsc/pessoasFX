@@ -1,8 +1,11 @@
 package pessoas.controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -14,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import pessoas.MainApp;
 import pessoas.model.Pessoa;
@@ -70,6 +74,9 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private Button btSalvar;
+    
+    @FXML
+    private TextField txPesquisa;
 
     private ObservableList<Pessoa> listaPessoas = FXCollections.observableArrayList();
 
@@ -89,6 +96,11 @@ public class JanelaPrincipalController implements Initializable {
         colunaBairro.setCellValueFactory(dadoCelula -> dadoCelula.getValue().bairroProperty());
         colunaCidade.setCellValueFactory(dadoCelula -> dadoCelula.getValue().cidadeProperty());
         colunaUf.setCellValueFactory(dadoCelula -> dadoCelula.getValue().ufProperty());
+        
+        txPesquisa.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    acaoPesquisa();
+                });
 
         atualizaTabela();
     }
@@ -163,18 +175,19 @@ public class JanelaPrincipalController implements Initializable {
             File arquivo = chooser.showSaveDialog(MainApp.getPrimaryStage());
 
             if (arquivo != null) {
-                FileWriter fw = new FileWriter(arquivo);
-                for (Pessoa p : listaPessoas) {
-                    fw.write(p.pessoaString() + System.lineSeparator());
+                BufferedWriter bw = new BufferedWriter(
+                        Files.newBufferedWriter(arquivo.toPath(), Charset.forName("UTF-8")));
+                for (Pessoa p : tabelaPessoas.getItems()) {
+                    bw.write(p.pessoaString() + System.lineSeparator());
                 }
-                fw.close();
+                bw.close();
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Arquivo salvo com sucesso");
                 alert.setHeaderText("O arquivo de texto foi salvo com sucesso");
                 alert.setContentText("Caminho do arquivo: " + arquivo.getAbsolutePath());
                 alert.showAndWait();
-                
+
             } else {
                 throw new Exception();
             }
@@ -186,6 +199,28 @@ public class JanelaPrincipalController implements Initializable {
             alert.setContentText("Mensagem de erro: " + ex.getMessage());
 
         }
+    }
+    
+    @FXML
+    private void acaoPesquisa() {
+        if(txPesquisa.getText().equals("")) {
+            tabelaPessoas.setItems(listaPessoas);
+        } else {
+            tabelaPessoas.setItems(encontrarPessoas());
+        }
+    }
+    
+    private ObservableList<Pessoa> encontrarPessoas() {
+        ObservableList<Pessoa> pessoasEncontradas = 
+                FXCollections.observableArrayList();
+        
+        for(Pessoa pessoa : listaPessoas) {
+            if(pessoa.getNome().contains(txPesquisa.getText())) {
+                pessoasEncontradas.add(pessoa);
+            }
+        }
+        
+        return pessoasEncontradas;
     }
 
     private void atualizaTabela() {

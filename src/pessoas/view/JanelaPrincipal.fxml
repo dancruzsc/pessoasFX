@@ -29,7 +29,7 @@
                         <Insets top="4.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField />
+                  <TextField fx:id="txPesquisa" />
                </children>
             </HBox>
          </children>
