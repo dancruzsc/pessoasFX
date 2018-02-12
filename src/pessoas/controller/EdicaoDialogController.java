@@ -127,7 +127,7 @@ public class EdicaoDialogController implements Initializable {
 
         json = json.replaceAll("[{}]", "");
 
-        Pattern keyValue = Pattern.compile("\"\\w*\": ?\"(\\p{L}|\\s|-|\\d)*\"");
+        Pattern keyValue = Pattern.compile("\"\\w*\": ?\"?(\\p{L}|\\s|-|\\d)*\"?");
         Matcher m = keyValue.matcher(json);
 
         HashMap<String, String> properties = new HashMap<>();
