@@ -252,7 +252,7 @@ public class Pessoa {
     
     /**
      * Método getter do atributo {@link Pessoa#id} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#id} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#id} da entidade
      */
     public String getId() {
         return id.get();
@@ -268,7 +268,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#id}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#id} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#id} da entidade
      */
     public StringProperty idProperty() {
         return id;
@@ -276,7 +276,7 @@ public class Pessoa {
     
     /**
      * Método getter do atributo {@link Pessoa#nome} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#nome} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#nome} da entidade
      */
     public String getNome() {
         return nome.get();
@@ -292,7 +292,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#nome}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#nome} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#nome} da entidade
      */
     public StringProperty nomeProperty() {
         return nome;
@@ -300,7 +300,7 @@ public class Pessoa {
     
     /**
      * Método getter do atributo {@link Pessoa#cpf} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#cpf} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#cpf} da entidade
      */
     public String getCpf() {
         return cpf.get();
@@ -316,7 +316,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#cpf}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#cpf} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#cpf} da entidade
      */
     public StringProperty cpfProperty() {
         return cpf;
@@ -324,7 +324,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#telefone} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#telefone} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#telefone} da entidade
      */
     public String getTelefone() {
         return telefone.get();
@@ -340,7 +340,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#telefone}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#telefone} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#telefone} da entidade
      */
     public StringProperty telefoneProperty() {
         return telefone;
@@ -348,7 +348,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#email} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#email} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#email} da entidade
      */
     public String getEmail() {
         return email.get();
@@ -364,7 +364,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#email}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#email} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#email} da entidade
      */
     public StringProperty emailProperty() {
         return email;
@@ -372,7 +372,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#cep} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#cep} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#cep} da entidade
      */
     public String getCep() {
         return cep.get();
@@ -388,7 +388,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#cep}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#cep} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#cep} da entidade
      */
     public StringProperty cepProperty() {
         return cep;
@@ -396,7 +396,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#logradouro} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#logradouro} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#logradouro} da entidade
      */
     public String getLogradouro() {
         return logradouro.get();
@@ -412,7 +412,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#logradouro}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#logradouro} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#logradouro} da entidade
      */
     public StringProperty logradouroProperty() {
         return logradouro;
@@ -420,7 +420,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#numEndereco} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#numEndereco} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#numEndereco} da entidade
      */
     public String getNumEndereco() {
         return numEndereco.get();
@@ -436,7 +436,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#numEndereco}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#numEndereco} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#numEndereco} da entidade
      */
     public StringProperty numEnderecoProperty() {
         return numEndereco;
@@ -444,7 +444,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#complemento} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#complemento} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#complemento} da entidade
      */
     public String getComplemento() {
         return complemento.get();
@@ -460,7 +460,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#complemento}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#complemento} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#complemento} da entidade
      */
     public StringProperty complementoProperty() {
         return complemento;
@@ -468,7 +468,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#bairro} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#bairro} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#bairro} da entidade
      */
     public String getBairro() {
         return bairro.get();
@@ -484,7 +484,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#bairro}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#bairro} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#bairro} da entidade
      */
     public StringProperty bairroProperty() {
         return bairro;
@@ -492,7 +492,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#cidade} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#cidade} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#cidade} da entidade
      */
     public String getCidade() {
         return cidade.get();
@@ -508,7 +508,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#cidade}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#cidade} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#cidade} da entidade
      */
     public StringProperty cidadeProperty() {
         return cidade;
@@ -516,7 +516,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#uf} como {@link String}
-     * @return {@String} contendo o campo {@link Pessoa#uf} da entidade
+     * @return {@link String} contendo o campo {@link Pessoa#uf} da entidade
      */
     public String getUf() {
         return uf.get();
@@ -532,7 +532,7 @@ public class Pessoa {
 
     /**
      * Método getter do atributo {@link Pessoa#uf}
-     * @return {@StringProperty} contendo o campo {@link Pessoa#uf} da entidade
+     * @return {@link StringProperty} contendo o campo {@link Pessoa#uf} da entidade
      */
     public StringProperty ufProperty() {
         return uf;

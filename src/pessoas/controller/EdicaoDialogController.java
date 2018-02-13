@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import pessoas.MainApp;
 import pessoas.model.Pessoa;
 
 /**
@@ -119,7 +120,7 @@ public class EdicaoDialogController implements Initializable {
 
     /**
      * Método responsável pela inicialização do controlador. Invocado após o
-     * carregamento do arquivo FXML em {@link MainApp#iniciaJanelaPrincipal() }.
+     * carregamento do arquivo FXML em {@link MainApp#iniciaJanelaPrincipal}.
      * Os argumentos do método não são utilizados na implementação desta
      * aplicação.
      */
