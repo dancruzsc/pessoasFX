@@ -336,7 +336,7 @@ public class JanelaPrincipalController implements Initializable {
                 BufferedWriter bw = new BufferedWriter(
                         Files.newBufferedWriter(arquivo.toPath(), Charset.forName("UTF-8")));
                 for (Pessoa p : tabelaPessoas.getItems()) {
-                    bw.write(p.pessoaString() + System.lineSeparator());
+                    bw.write(p.toString() + System.lineSeparator());
                 }
                 bw.close();
 

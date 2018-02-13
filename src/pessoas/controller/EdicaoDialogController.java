@@ -129,10 +129,10 @@ public class EdicaoDialogController implements Initializable {
         
         /*
             Inicialização dos campos TextField. 
-            Cada um recebe um TextFormatter responsável por garantir a integridade
+            Cada campo recebe um TextFormatter responsável por garantir a integridade
             dos dados a serem recebidos; em campos com texto existem limitadores
-            de caracteres, e em campos somente números ambas as condições são 
-            verificadas.
+            de caracteres, e em campos somente números tanto a condição supracitada 
+            quanto a condição de haver apenas números são verificadas.
         */
         txNome.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
@@ -208,8 +208,6 @@ public class EdicaoDialogController implements Initializable {
         }));
 
         txUf.setItems(estados); // Inicializa o ComboBox com a lista de estados
-        
-        mostrarPessoa(null); // inicializa os campos de texto
     }
 
     /**
@@ -217,9 +215,8 @@ public class EdicaoDialogController implements Initializable {
      */
     @FXML
     private void acaoBotaoOK() {
-
         /*
-            Se todos os dados estão dentro do padrão exigido: transfere os dados
+            Se todos os dados estão dentro do padrão exigido transfere os dados
             para a instância de Pessoa
          */
         if (validarDados()) {
@@ -416,71 +413,73 @@ public class EdicaoDialogController implements Initializable {
         }
     }
 
-    private void mostrarPessoa(Pessoa pessoa) {
-        if (pessoa != null) {
-            txNome.setText(pessoa.getNome());
-            txCpf.setText(pessoa.getCpf());
-            txTelefone.setText(pessoa.getTelefone());
-            txEmail.setText(pessoa.getEmail());
-            txCep.setText(pessoa.getCep());
-            txLogradouro.setText(pessoa.getLogradouro());
-            txNumEndereco.setText(pessoa.getNumEndereco());
-            txComplemento.setText(pessoa.getComplemento());
-            txBairro.setText(pessoa.getBairro());
-            txCidade.setText(pessoa.getCidade());
-        } else {
-            txNome.setText("");
-            txCpf.setText("");
-            txTelefone.setText("");
-            txEmail.setText("");
-            txCep.setText("");
-            txLogradouro.setText("");
-            txNumEndereco.setText("");
-            txComplemento.setText("");
-            txBairro.setText("");
-            txCidade.setText("");
-        }
-    }
-
+    /**
+     * Método responsável pela validação do CPF informado. 
+     * @param cpf {@link String} contendo o CPF
+     * @return {@code true} se o CPF estiver válido
+     */
     private boolean validarCPF(String cpf) {
         int acum1 = 0, acum2 = 0, dv1, dv2;
 
         String[] chars = cpf.split("");
         int[] valores = new int[chars.length];
 
+        // Parse da String para valores inteiros
         for (int i = 0; i < chars.length; i++) {
             valores[i] = Integer.parseInt(chars[i]);
         }
 
+        // Cálculo inicial do primeiro dígito verificador
         for (int i = 0, mult = 10; i <= 8; i++, mult--) {
             acum1 += mult * valores[i];
         }
 
+        // Cálculo inicial do segundo dígito verificador
         for (int i = 0, mult = 11; i <= 9; i++, mult--) {
             acum2 += mult * valores[i];
         }
 
+        // Cálculo final do primeiro dígito verificador
         acum1 %= 11;
         dv1 = acum1 < 2 ? 0 : 11 - acum1;
 
+        // Cálculo final do segundo dígito verificador
         acum2 %= 11;
         dv2 = acum2 < 2 ? 0 : 11 - acum2;
 
         return (dv1 == valores[9] && dv2 == valores[10]);
     }
 
+    /**
+     * Método getter do atributo {@link EdicaoDialogController#OkClicked}.
+     * @return atributo {@link EdicaoDialogController#OkClicked}
+     */
     public boolean isOkClicked() {
         return OkClicked;
     }
 
+    /**
+     * Método getter do atributo {@link EdicaoDialogController#stage}.
+     * @return atributo {@link EdicaoDialogController#stage}
+     */
     public Stage getStage() {
         return stage;
     }
+    
+    /**
+     * Método setter do atributo {@link EdicaoDialogController#stage}.
+     * @param stage {@link Stage} a ser atribuído ao atributo {@link EdicaoDialogController#stage}
+     */
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
+    
+    /**
+     * Método setter do atributo {@link EdicaoDialogController#pessoa}.
+     * Neste atributo os campos de texto também são iniciados com os dados da entidade {@link EdicaoDialogController#pessoa}.
+     * @param pessoa {@link Pessoa} a ser atribuído ao atributo {@link EdicaoDialogController#pessoa}
+     */
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
 
