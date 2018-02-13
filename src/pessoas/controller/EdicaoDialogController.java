@@ -15,62 +15,213 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import pessoas.model.Pessoa;
 
+/**
+ * Classe responsável pela funcionalidade da janela de adição / edição de
+ * entidades.
+ *
+ * @author Danilo Cruz
+ */
 public class EdicaoDialogController implements Initializable {
 
+    /**
+     * Campo de texto responsável pelo campo 'nome' da pessoa
+     */
     @FXML
     private TextField txNome;
 
+    /**
+     * Campo de texto responsável pelo campo 'cpf' da pessoa
+     */
     @FXML
     private TextField txCpf;
 
+    /**
+     * Campo de texto responsável pelo campo 'telefone' da pessoa
+     */
     @FXML
     private TextField txTelefone;
 
+    /**
+     * Campo de texto responsável pelo campo 'email' da pessoa
+     */
     @FXML
     private TextField txEmail;
 
+    /**
+     * Campo de texto responsável pelo campo 'cep' da pessoa
+     */
     @FXML
     private TextField txCep;
 
+    /**
+     * Campo de texto responsável pelo campo 'logradouro' da pessoa
+     */
     @FXML
     private TextField txLogradouro;
 
+    /**
+     * Campo de texto responsável pelo campo 'numEndereco' da pessoa
+     */
     @FXML
     private TextField txNumEndereco;
 
+    /**
+     * Campo de texto responsável pelo campo 'complemento' da pessoa
+     */
     @FXML
     private TextField txComplemento;
 
+    /**
+     * Campo de texto responsável pelo campo 'bairro' da pessoa
+     */
     @FXML
     private TextField txBairro;
 
+    /**
+     * Campo de texto responsável pelo campo 'cidade' da pessoa
+     */
     @FXML
     private TextField txCidade;
 
+    /**
+     * Lista responsável por conter as opcoes selecionáveis de
+     * {@link EdicaoDialogController#txUf}
+     */
     private static final ObservableList<String> estados = FXCollections.
             observableArrayList("AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES",
                     "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
                     "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO");
 
+    /**
+     * Campo de seleção responsável pelo campo 'uf' da pessoa
+     */
     @FXML
     private ComboBox<String> txUf;
 
+    /**
+     * Palco contendo os elementos visíveis da GUI
+     */
     private Stage stage;
+
+    /**
+     * campo contendo o resultado da ação do usuário
+     */
     private boolean OkClicked = false;
+
+    /**
+     * instância da entidade modelo para realizar manipulações
+     */
     private Pessoa pessoa;
 
+    /**
+     * Método responsável pela inicialização do controlador. Invocado após o
+     * carregamento do arquivo FXML em {@link MainApp#iniciaJanelaPrincipal() }.
+     * Os argumentos do método não são utilizados na implementação desta
+     * aplicação.
+     */
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txUf.setItems(estados);
-        mostrarPessoa(null);
+        
+        /*
+            Inicialização dos campos TextField. 
+            Cada um recebe um TextFormatter responsável por garantir a integridade
+            dos dados a serem recebidos; em campos com texto existem limitadores
+            de caracteres, e em campos somente números ambas as condições são 
+            verificadas.
+        */
+        txNome.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 100) return change;
+            return null;
+        }));
+        
+        txCpf.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if (!change.isContentChange()) return change;
+            if (text.matches("[0-9]*")
+                    && change.getControlNewText().length() <= 11) return change;
+            return null;
+        }));
+        
+        txTelefone.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 20) return change;
+            return null;
+        }));
+        
+        txEmail.setTextFormatter(new TextFormatter<>((change) -> {
+           String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 100) return change;
+            return null;
+        }));
+
+        txCep.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if (!change.isContentChange()) return change;
+            if (text.matches("[0-9]*")
+                    && change.getControlNewText().length() <= 8) return change;
+            return null;
+        }));
+        
+        txLogradouro.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 255) return change;
+            return null;
+        }));
+
+        txNumEndereco.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(text.matches("[0-9]*") && 
+                    change.getControlNewText().length() <= 10) return change;
+            return null;
+        }));
+        
+        txComplemento.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 255) return change;
+            return null;
+        }));
+        
+        txBairro.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 100) return change;
+            return null;
+        }));
+        
+        txCidade.setTextFormatter(new TextFormatter<>((change) -> {
+            String text = change.getText();
+            if(!change.isContentChange()) return change;
+            if(change.getControlNewText().length() <= 50) return change;
+            return null;
+        }));
+
+        txUf.setItems(estados); // Inicializa o ComboBox com a lista de estados
+        
+        mostrarPessoa(null); // inicializa os campos de texto
     }
 
+    /**
+     * Método responsável pela ação do botão OK.
+     */
     @FXML
     private void acaoBotaoOK() {
+
+        /*
+            Se todos os dados estão dentro do padrão exigido: transfere os dados
+            para a instância de Pessoa
+         */
         if (validarDados()) {
             pessoa.setNome(txNome.getText());
             pessoa.setCpf(txCpf.getText());
@@ -84,21 +235,29 @@ public class EdicaoDialogController implements Initializable {
             pessoa.setCidade(txCidade.getText());
             pessoa.setUf(txUf.getSelectionModel().getSelectedItem());
 
-            OkClicked = true;
-            stage.close();
+            OkClicked = true; // Informa à janela principal que o usuário clicou em OK
+            stage.close(); // fecha a janela
         }
     }
 
+    /**
+     * Método responsável pela ação do botão Cancelar.
+     */
     @FXML
     private void acaoBotaoCancelar() {
         stage.close();
     }
 
+    /**
+     * Método responsável pela ação do botão de consulta do CEP.
+     */
     @FXML
     private void acaoBotaoCEP() {
         try {
+            // Coleta os dados da API pública
             Map<String, String> dados = parseJSON(getInfosAPI(txCep.getText()));
 
+            // Se a API retornar erro, exibe uma mensagem de erro ao usuário
             if (dados.containsKey("erro")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("CEP Incorreto");
@@ -108,11 +267,22 @@ public class EdicaoDialogController implements Initializable {
                 return;
             }
 
+            // Preenche os campos utilizando os dados retornados
+            /*
+                A API retorna o campo 'complemento' como complemento de 
+                logradouro (ex. lado par, CEP até num. X); no campo logradouro 
+                estou concatenando o campo logradouro e complemento para oferecer
+                um resultado mais íntegro.
+            
+                O campo 'complemento' da GUI é utilizado para observações (ex. 
+                2o andar, loja comercial etc.)
+             */
             txLogradouro.setText(dados.get("logradouro") + " " + dados.get("complemento"));
             txBairro.setText(dados.get("bairro"));
             txCidade.setText(dados.get("localidade"));
             txUf.setValue(dados.get("uf"));
         } catch (Exception ex) {
+            // Exibe alerta em caso de erro na API.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de API");
             alert.setHeaderText("Ocorreu um erro na consulta dos dados");
@@ -120,47 +290,79 @@ public class EdicaoDialogController implements Initializable {
         }
     }
 
-    // Transforma a string estruturada em um HashMap.
+    /**
+     * Método responsável por realizar o parse do JSON retornado pela API.
+     *
+     * @param json a {@link String} contendo o JSON retornado pela API
+     * @return {@link HashMap} contendo as duplas chave-valor do JSON
+     * @throws Exception em caso de erro no webservice (ex. site fora do ar)
+     */
     private HashMap<String, String> parseJSON(String json) throws Exception {
 
+        // remove as chaves que delimitam o JSON
         json = json.replaceAll("[{}]", "");
 
+        // Expressão regular localizando os pares chave-valor no JSON
         Pattern keyValue = Pattern.compile("\"\\w*\": ?\"?(\\p{L}|\\s|-|\\d)*\"?");
         Matcher m = keyValue.matcher(json);
 
         HashMap<String, String> properties = new HashMap<>();
 
+        // Iteração nas strings encontradas pela expressão regular
         while (m.find()) {
             String result = m.group();
-            result = result.replaceAll(": ", ":");
-            String[] values = result.split(":");
-            for(int i = 0; i < values.length; i++) {
-                values[i]  = values[i].replaceAll("[\"|,]", "");
+            result = result.replaceAll(": ", ":"); // Ajustes na string
+            String[] values = result.split(":"); // Separa chave e valor
+            for (int i = 0; i < values.length; i++) {
+                values[i] = values[i].replaceAll("[\"|,]", ""); // Ajustes na string
             }
-            properties.put(values[0], values[1]);
+            properties.put(values[0], values[1]); // Insere a dupla no HashMap
         }
 
         return properties;
     }
 
-    // Consulta a API pública. Retorna o JSON resultante ou uma exceção em caso de erro. 
+    /**
+     * Método responsável pela consulta à API pública.
+     *
+     * @param cep {@link String} contendo o CEP a ser consultado na API.
+     * @return {@link String} contendo o JSON com as informações resultantes.
+     * @throws Exception em caso de erro no webservice (ex. site fora do ar)
+     */
     private String getInfosAPI(String cep) throws Exception {
+
+        // Conexão com o webservice
         StringBuilder sb = new StringBuilder();
         URL api = new URL("http://viacep.com.br/ws/" + cep + "/json");
         BufferedReader br = new BufferedReader(new InputStreamReader(api.openStream()));
         String line;
 
+        // Iteração coletando os dados retornados
         while ((line = br.readLine()) != null) {
             sb.append(line);
         }
+
         br.close();
         return sb.toString();
     }
 
+    /**
+     * Método verificando se o texto no {@link TextField} é vazio
+     *
+     * @param campo {@link TextField} a ser verificado
+     * @return {@link Boolean} {@code true} se o campo está vazio, {@code false}
+     * caso contrário
+     */
     private boolean verificaCampoVazio(TextField campo) {
         return campo.getText() == null || campo.getText().length() == 0;
     }
 
+    /**
+     * Método responsável pela validação dos dados.
+     *
+     * @return {@link Boolean} {@code true} se os dados estiverem dentro do
+     * padrão exigido, {@code false} caso contrário
+     */
     private boolean validarDados() {
         String msgErro = "";
 
@@ -171,16 +373,11 @@ public class EdicaoDialogController implements Initializable {
         if (verificaCampoVazio(txCpf)) {
             msgErro += "Preencha o CPF!\n";
         } else {
-            try {
-                Long.parseLong(txCpf.getText());
-                if (validarCPF(txCpf.getText()) == false) {
-                    msgErro += "CPF inválido!\n";
-                } else if (txCpf.getText().length() != 11) {
-                    msgErro += "CPF é composto por 11 algarismos; verifique o CPF!\n";
-                }
 
-            } catch (NumberFormatException e) {
-                msgErro += "CPF deve ser composto por somente números!\n";
+            if (validarCPF(txCpf.getText()) == false) {
+                msgErro += "CPF inválido!\n";
+            } else if (txCpf.getText().length() != 11) {
+                msgErro += "CPF é composto por 11 algarismos; verifique o CPF!\n";
             }
         }
 
@@ -188,12 +385,6 @@ public class EdicaoDialogController implements Initializable {
             msgErro += "Preencha o CEP!\n";
         } else if (txCep.getText().length() != 8) {
             msgErro += "CEP é composto por 8 algarismos. Verifique o CEP!\n";
-        } else {
-            try {
-                Long.parseLong(txCep.getText());
-            } catch (Exception ex) {
-                msgErro += "CEP deve ser composto por somente números!\n";
-            }
         }
 
         if (verificaCampoVazio(txLogradouro)) {
@@ -202,12 +393,6 @@ public class EdicaoDialogController implements Initializable {
 
         if (verificaCampoVazio(txNumEndereco)) {
             msgErro += "Preencha o número do local!\n";
-        } else {
-            try {
-                Integer.parseInt(txNumEndereco.getText());
-            } catch (Exception ex) {
-                msgErro += "Número do local deve ser composto por somente números!\n";
-            }
         }
 
         if (verificaCampoVazio(txBairro)) {
