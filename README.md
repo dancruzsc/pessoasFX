@@ -21,11 +21,26 @@ Esta aplicação foi desenvolvida e depurada na IDE Netbeans 8.2 utilizando o JD
 Você muito provavelmente precisará ajustar a aplicação para que esta utilize o seu SGBD. Estes dados devem ser alterados na classe ConnectionFactory.
 
 ### Netbeans
+> Passo a passo executado na versão 8.2
   - Com o projeto aberto e selecionado, vá em Executar > Construir Projeto, ou em Executar > Executar Projeto;
   - Caso tenha feito a construção do projeto, o arquivo .jar resultante encontra-se na pasta `dist/` do projeto.
 
-- Eclipse: 
-  - Adicionar passos para o Eclipse
+### Eclipse
+> Passo a passo executado na versão Oxygen
+
+  - Para obter suporte completo do JavaFX no Eclipse baixe o plugin e(fx)clipse - não há necessidade deste plugin para compilar ou executar;
+  - Vá em File > Import...
+  - Na caixa de texto, procure por Projects from Folder or Archive;
+  - No campo Import Source deve ser colocado o caminho da pasta. É possível localizá-la pelo botão Directory... ;
+  - O Eclipse deve importar o projeto corretamente. Clique em Finish;
+
+    - Para executar o programa, vá em Run > Run;
+
+    - Para gerar o arquivo .jar: 
+    - Vá em File > Export...
+    - Busque por 'Runnable Jar';
+    - Escolha a classe principal (MainApp), o caminho de destino, e em 'Library handling' selecione a opção 'Package required libraries into generated JAR';
+    - Clique em 'Finish' e execute o arquivo .jar.
 
 
 ## Decisões de design
