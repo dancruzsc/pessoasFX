@@ -120,91 +120,130 @@ public class EdicaoDialogController implements Initializable {
 
     /**
      * Método responsável pela inicialização do controlador. Invocado após o
-     * carregamento do arquivo FXML em {@link MainApp#iniciaJanelaPrincipal}.
-     * Os argumentos do método não são utilizados na implementação desta
-     * aplicação.
+     * carregamento do arquivo FXML em {@link MainApp#iniciaJanelaPrincipal}. Os
+     * argumentos do método não são utilizados na implementação desta aplicação.
      */
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         /*
             Inicialização dos campos TextField. 
             Cada campo recebe um TextFormatter responsável por garantir a integridade
             dos dados a serem recebidos; em campos com texto existem limitadores
             de caracteres, e em campos somente números tanto a condição supracitada 
             quanto a condição de haver apenas números são verificadas.
-        */
+         */
         txNome.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 100) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 100) {
+                return change;
+            }
             return null;
         }));
-        
+
         txCpf.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if (!change.isContentChange()) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
             if (text.matches("[0-9]*")
-                    && change.getControlNewText().length() <= 11) return change;
+                    && change.getControlNewText().length() <= 11) {
+                return change;
+            }
             return null;
         }));
-        
+
         txTelefone.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 20) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 20) {
+                return change;
+            }
             return null;
         }));
-        
+
         txEmail.setTextFormatter(new TextFormatter<>((change) -> {
-           String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 100) return change;
+            String text = change.getText();
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 100) {
+                return change;
+            }
             return null;
         }));
 
         txCep.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if (!change.isContentChange()) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
             if (text.matches("[0-9]*")
-                    && change.getControlNewText().length() <= 8) return change;
+                    && change.getControlNewText().length() <= 8) {
+                return change;
+            }
             return null;
         }));
-        
+
         txLogradouro.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 255) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 255) {
+                return change;
+            }
             return null;
         }));
 
         txNumEndereco.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(text.matches("[0-9]*") && 
-                    change.getControlNewText().length() <= 10) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (text.matches("[0-9]*")
+                    && change.getControlNewText().length() <= 10) {
+                return change;
+            }
             return null;
         }));
-        
+
         txComplemento.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 255) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 255) {
+                return change;
+            }
             return null;
         }));
-        
+
         txBairro.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 100) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 100) {
+                return change;
+            }
             return null;
         }));
-        
+
         txCidade.setTextFormatter(new TextFormatter<>((change) -> {
             String text = change.getText();
-            if(!change.isContentChange()) return change;
-            if(change.getControlNewText().length() <= 50) return change;
+            if (!change.isContentChange()) {
+                return change;
+            }
+            if (change.getControlNewText().length() <= 50) {
+                return change;
+            }
             return null;
         }));
 
@@ -252,6 +291,15 @@ public class EdicaoDialogController implements Initializable {
     @FXML
     private void acaoBotaoCEP() {
         try {
+            if (txCep.getText().length() != 8) {
+                // Verifica se o CEP está com menos de 8 caracteres
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Campo inválido");
+                alert.setHeaderText("Por favor, corrija o campo");
+                alert.setContentText("CEP deve conter 8 algarismos. Verifique seu CEP!");
+                alert.showAndWait();
+            }
+
             // Coleta os dados da API pública
             Map<String, String> dados = parseJSON(getInfosAPI(txCep.getText()));
 
@@ -415,7 +463,8 @@ public class EdicaoDialogController implements Initializable {
     }
 
     /**
-     * Método responsável pela validação do CPF informado. 
+     * Método responsável pela validação do CPF informado.
+     *
      * @param cpf {@link String} contendo o CPF
      * @return {@code true} se o CPF estiver válido
      */
@@ -453,6 +502,7 @@ public class EdicaoDialogController implements Initializable {
 
     /**
      * Método getter do atributo {@link EdicaoDialogController#OkClicked}.
+     *
      * @return atributo {@link EdicaoDialogController#OkClicked}
      */
     public boolean isOkClicked() {
@@ -461,25 +511,30 @@ public class EdicaoDialogController implements Initializable {
 
     /**
      * Método getter do atributo {@link EdicaoDialogController#stage}.
+     *
      * @return atributo {@link EdicaoDialogController#stage}
      */
     public Stage getStage() {
         return stage;
     }
-    
+
     /**
      * Método setter do atributo {@link EdicaoDialogController#stage}.
-     * @param stage {@link Stage} a ser atribuído ao atributo {@link EdicaoDialogController#stage}
+     *
+     * @param stage {@link Stage} a ser atribuído ao atributo
+     * {@link EdicaoDialogController#stage}
      */
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
+
     /**
-     * Método setter do atributo {@link EdicaoDialogController#pessoa}.
-     * Neste atributo os campos de texto também são iniciados com os dados da entidade {@link EdicaoDialogController#pessoa}.
-     * @param pessoa {@link Pessoa} a ser atribuído ao atributo {@link EdicaoDialogController#pessoa}
+     * Método setter do atributo {@link EdicaoDialogController#pessoa}. Neste
+     * atributo os campos de texto também são iniciados com os dados da entidade
+     * {@link EdicaoDialogController#pessoa}.
+     *
+     * @param pessoa {@link Pessoa} a ser atribuído ao atributo
+     * {@link EdicaoDialogController#pessoa}
      */
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
