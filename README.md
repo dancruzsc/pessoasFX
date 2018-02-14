@@ -1,7 +1,7 @@
 # pessoasFX
 Aplicação JavaFX para gerenciamento de pessoas.
 
-O javadoc pode ser consultado neste link.
+O javadoc pode ser consultado [neste link](https://dancruzsc.github.io/pessoasFX/javadocs/index.html).
 
 
 ## Considerações iniciais
