@@ -380,7 +380,7 @@ public class EdicaoDialogController implements Initializable {
         // Conexão com o webservice
         StringBuilder sb = new StringBuilder();
         URL api = new URL("http://viacep.com.br/ws/" + cep + "/json");
-        BufferedReader br = new BufferedReader(new InputStreamReader(api.openStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(api.openStream(), "UTF-8"));
         String line;
 
         // Iteração coletando os dados retornados
