@@ -380,6 +380,8 @@ public class EdicaoDialogController implements Initializable {
         // Conexão com o webservice
         StringBuilder sb = new StringBuilder();
         URL api = new URL("http://viacep.com.br/ws/" + cep + "/json");
+        
+        // parâmetro UTF-8 necessário para exibir acentos na aplicação corretamente
         BufferedReader br = new BufferedReader(new InputStreamReader(api.openStream(), "UTF-8"));
         String line;
 
