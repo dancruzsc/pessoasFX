@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -130,6 +132,7 @@ public class JanelaPrincipalController implements Initializable {
      */
     @FXML
     private Button btSalvar;
+    
 
     /**
      * Campo de texto responsável pela pesquisa de tuplas de dados na aplicação.
@@ -143,6 +146,8 @@ public class JanelaPrincipalController implements Initializable {
      * automaticamente refletida na tabela
      */
     private ObservableList<Pessoa> listaPessoas = FXCollections.observableArrayList();
+    
+    
 
     /**
      * Método responsável pela inicialização do controlador. Invocado após o
@@ -155,11 +160,9 @@ public class JanelaPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         /*
-            Inicialização da tabela.
             O binding da tabela com a lista observável e o binding das colunas
             com os properties da entidade modelo são efetuados neste trecho.
          */
-        tabelaPessoas.setItems(listaPessoas);
         colunaId.setCellValueFactory(dadoCelula -> dadoCelula.getValue().idProperty());
         colunaNome.setCellValueFactory(dadoCelula -> dadoCelula.getValue().nomeProperty());
         colunaCpf.setCellValueFactory(dadoCelula -> dadoCelula.getValue().cpfProperty());
@@ -172,6 +175,10 @@ public class JanelaPrincipalController implements Initializable {
         colunaBairro.setCellValueFactory(dadoCelula -> dadoCelula.getValue().bairroProperty());
         colunaCidade.setCellValueFactory(dadoCelula -> dadoCelula.getValue().cidadeProperty());
         colunaUf.setCellValueFactory(dadoCelula -> dadoCelula.getValue().ufProperty());
+        
+        // Funcionalidade de pesquisa ocorre neste trecho
+        // Primeiramente deve-se criar este FilteredList com a lista original de pessoas;
+        FilteredList<Pessoa> itensFiltrados = new FilteredList<>(listaPessoas, p -> true);
 
         /*
             Binding do evento de edição do campo de pesquisa. Toda vez que o
@@ -181,8 +188,39 @@ public class JanelaPrincipalController implements Initializable {
          */
         txPesquisa.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    acaoPesquisa();
+                    itensFiltrados.setPredicate(pessoa -> { // executa sempre que o campo de pesquisa é alterado
+                        
+                        // se campo estiver vazio exibe todas as pessoas
+                        
+                        if(newValue == null || newValue.isEmpty()) return true;
+                        String caixaBaixa = newValue.toLowerCase();
+                        
+                        // Efetua pesquisa em todos os campos exceto o id
+                        if(pessoa.getNome().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getCpf().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getTelefone().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getEmail().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getCep().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getLogradouro().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getNumEndereco().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getComplemento().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getBairro().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getCidade().toLowerCase().contains(caixaBaixa)) return true;
+                        if(pessoa.getUf().toLowerCase().contains(caixaBaixa)) return true;
+
+                        // Caso não encontre nada a lista não se altera
+                        return false;
+                   });
                 });
+        
+        // A lista filtrada não pode ser ordenada; deve-se criar este wrap para tornar a lista ordenável
+        SortedList<Pessoa> listaOrdenada = new SortedList<>(itensFiltrados);
+        
+        // Bind da ordenação à tabela
+        listaOrdenada.comparatorProperty().bind(tabelaPessoas.comparatorProperty());
+        
+        // Bind dos itens filtrados e ordenados à tabela
+        tabelaPessoas.setItems(listaOrdenada);
 
         // Coleta as entradas na tabela SQL e as insere na lista da tabela GUI.
         atualizaTabela();
@@ -363,42 +401,10 @@ public class JanelaPrincipalController implements Initializable {
 
         }
     }
-    
-    /**
-     * Método responsável por executar a pesquisa de entradas na aplicação.
-     */
-
-    @FXML
-    private void acaoPesquisa() {
-        if (txPesquisa.getText().equals("")) {
-            tabelaPessoas.setItems(listaPessoas);
-        } else {
-            tabelaPessoas.setItems(encontrarPessoas());
-        }
-    }
-    
-    /**
-     * Método responsável por atualizar a lista da tabela GUI referente ao texto inserido no {@link TextField} de pesquisa.
-     * @return lista contendo os resultados da pesquisa
-     */
-
-    private ObservableList<Pessoa> encontrarPessoas() {
-        ObservableList<Pessoa> pessoasEncontradas
-                = FXCollections.observableArrayList();
-
-        for (Pessoa pessoa : listaPessoas) {
-            if (pessoa.getNome().contains(txPesquisa.getText())) {
-                pessoasEncontradas.add(pessoa);
-            }
-        }
-
-        return pessoasEncontradas;
-    }
 
     /**
      * Método responsável por atualizar a tabela através de uma query SQL.
      */
-    
     private void atualizaTabela() {
         try {
             listaPessoas.clear();

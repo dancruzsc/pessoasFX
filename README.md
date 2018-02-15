@@ -7,7 +7,7 @@ O javadoc pode ser consultado [neste link](https://dancruzsc.github.io/pessoasFX
 ## Considerações iniciais
 Esta aplicação desktop utiliza a linguagem de programação Java, juntamente com a biblioteca interna JavaFX para renderização dos elementos GUI. A aplicação utiliza o banco de dados MySQL para manter a persistência dos dados informados durante uma sessão.
 
-A aplicação gerencia uma lista de pessoas, permitindo a adição de novas pessoas e alteração ou exclusão de pessoas existentes. A aplicação também permite que pessoas sejam pesquisadas por seu nome, como também permite que os dados sejam salvos em um arquivo de texto (extensão .txt).
+A aplicação gerencia uma lista de pessoas, permitindo a adição de novas pessoas e alteração ou exclusão de pessoas existentes. A aplicação também permite que pessoas sejam pesquisadas pelos seus dados, como também permite que os dados sejam salvos em um arquivo de texto (extensão .txt).
 
 O sistema possui apenas duas janelas principais: 
 * A janela que exibe a lista completa de usuários e os botões de adição, alteração, exclusão de pessoas, geração de arquivo de texto e um campo para pesquisa;
@@ -22,6 +22,7 @@ Você muito provavelmente precisará ajustar a aplicação para que esta utilize
 
 ### Netbeans
 > Passo a passo executado na versão 8.2
+
   - Com o projeto aberto e selecionado, vá em Executar > Construir Projeto, ou em Executar > Executar Projeto;
   - Caso tenha feito a construção do projeto, o arquivo .jar resultante encontra-se na pasta `dist/` do projeto.
 
@@ -29,9 +30,7 @@ Você muito provavelmente precisará ajustar a aplicação para que esta utilize
 > Passo a passo executado na versão Oxygen
 
   - Para obter suporte completo do JavaFX no Eclipse baixe o plugin e(fx)clipse - não há necessidade deste plugin para compilar ou executar;
-  - Vá em File > Import...
-  - Na caixa de texto, procure por Projects from Folder or Archive;
-  - No campo Import Source deve ser colocado o caminho da pasta. É possível localizá-la pelo botão Directory... ;
+  - Abra o projeto através da ferramenta de exportação (File > Import...), escolha Projects From Folder or Archive;
   - O Eclipse deve importar o projeto corretamente. Clique em Finish;
 
     - Para executar o programa, vá em Run > Run;
