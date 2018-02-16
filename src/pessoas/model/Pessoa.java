@@ -33,18 +33,18 @@ public class Pessoa {
      * Construtor sem argumentos para executar inicialização dos campos Property.
      */
     public Pessoa() {
-        id = new SimpleStringProperty();
-        nome = new SimpleStringProperty();
-        cpf = new SimpleStringProperty();
-        telefone = new SimpleStringProperty();
-        email = new SimpleStringProperty();
-        cep = new SimpleStringProperty();
-        logradouro = new SimpleStringProperty();
-        numEndereco = new SimpleStringProperty();
-        complemento = new SimpleStringProperty();
-        bairro = new SimpleStringProperty();
-        cidade = new SimpleStringProperty();
-        uf = new SimpleStringProperty();
+        id = new SimpleStringProperty("");
+        nome = new SimpleStringProperty("");
+        cpf = new SimpleStringProperty("");
+        telefone = new SimpleStringProperty("");
+        email = new SimpleStringProperty("");
+        cep = new SimpleStringProperty("");
+        logradouro = new SimpleStringProperty("");
+        numEndereco = new SimpleStringProperty("");
+        complemento = new SimpleStringProperty("");
+        bairro = new SimpleStringProperty("");
+        cidade = new SimpleStringProperty("");
+        uf = new SimpleStringProperty("");
     }
 
     /**

@@ -230,7 +230,7 @@ public class JanelaPrincipalController implements Initializable {
      * Método responsável pela adição de novas entidades à aplicação.
      */
     @FXML
-    private void acaoAdicionarPessoa() {
+    public void acaoAdicionarPessoa() {
         try {
             /*
                 Devido às properties utilizadas na classe do modelo, uma espécie
@@ -271,7 +271,7 @@ public class JanelaPrincipalController implements Initializable {
      * Método responsável pela edição de entradas existentes na aplicação.
      */
     @FXML
-    private void acaoEditarPessoa() {
+    public void acaoEditarPessoa() {
         try {
 
             /*
@@ -304,7 +304,7 @@ public class JanelaPrincipalController implements Initializable {
             alert.setTitle("Erro de atualização da tabela");
             alert.setHeaderText("Erro na edição");
             alert.setContentText("Houve um erro na edição da pessoa.\n"
-                    + "Mensagem de erro: " + ex.getMessage());
+                    + "Mensagem de erro: " + ex);
             alert.showAndWait();
         }
     }
@@ -313,7 +313,7 @@ public class JanelaPrincipalController implements Initializable {
      * Método responsável pela remoção de entradas existentes na aplicação.
      */
     @FXML
-    private void acaoRemoverPessoa() {
+    public void acaoRemoverPessoa() {
         try {
             /*
                 Devido às properties utilizadas na classe do modelo, uma espécie
@@ -349,7 +349,7 @@ public class JanelaPrincipalController implements Initializable {
             alert.setTitle("Erro de atualização da tabela");
             alert.setHeaderText("Erro na exclusão");
             alert.setContentText("Houve um erro na exclusão da pessoa.\n"
-                    + "Mensagem de erro: " + ex.getMessage());
+                    + "Mensagem de erro: " + ex);
             alert.showAndWait();
         }
     }
@@ -359,7 +359,7 @@ public class JanelaPrincipalController implements Initializable {
      */
 
     @FXML
-    private void acaoSalvarTxt() {
+    public void acaoSalvarTxt() {
         try {
             // Escolhe o local onde o caminho será salvo.
             FileChooser chooser = new FileChooser();
@@ -405,7 +405,7 @@ public class JanelaPrincipalController implements Initializable {
     /**
      * Método responsável por atualizar a tabela através de uma query SQL.
      */
-    private void atualizaTabela() {
+    public void atualizaTabela() {
         try {
             listaPessoas.clear();
             listaPessoas.addAll(Pessoa.getAll());

@@ -41,17 +41,24 @@ Você muito provavelmente precisará ajustar a aplicação para que esta utilize
     - Escolha a classe principal (MainApp), o caminho de destino, e em 'Library handling' selecione a opção 'Package required libraries into generated JAR';
     - Clique em 'Finish' e execute o arquivo .jar.
 
+## Testes
+O projeto contém as classes de testes unitários. Para a criação de testes foi utilizada a ferramenta JUnit. As classes de controladores da GUI e a classe de Modelo contém testes para casos de sucesso e erro. Os testes principais estão focados nas classes `PessoaTest` e `EdicaoDialogControllerTest` - a primeira classe testa as operações CRUD com o banco de dados, a segunda testa as validações de dados informadas pelo usuário. 
+
+Efetuar testes em componentes de aplicações JUnit não é uma tarefa fácil. Para o projeto acabou sendo utilizado um trecho de código oriundo [deste blog](http://andrewtill.blogspot.com.br/2012/10/junit-rule-for-javafx-controller-testing.html) no formato de Rule do JUnit para tornar a manutenção das classes de teste mais flexível. Esta Rule cria uma nova Thread para cada teste de componente JavaFX a ser executado. 
+
 
 ## Decisões de design
-Desde o começo a aplicação foi projetada a manter uma estrutura MVC ou semelhante. A utilização do JavaFX fez com que esta estrutura fosse integralmente mantida pois sua estrutura interna faz com que devam existir as entidades Model, Control e View.
+Desde o começo a aplicação foi projetada a manter uma estrutura semelhante à MVC. A utilização do JavaFX fez com que esta estrutura fosse integralmente mantida pois sua estrutura interna faz com que devam existir as entidades Model, Control e View.
 
 ### View
 Existem duas formas de criar uma estrutura GUI no JavaFX: código Java, onde deve-se criar e posicionar cada elemento manualmente, ou a utilização de um arquivo XML modificado (chamado de FXML) juntamente com uma classe Controller responsável pelas ações de cada elemento. Optei pela última opção para poder ganhar tempo no desenvolvimento. 
 
-Para criar os arquivos FXML utilizei uma aplicação chamada SceneBuilder cujo código-fonte pertence à Oracle. Não há a estrita necessidade de utilizar este programa durante o desenvolvimento, é totalmente possível criar e editar um arquivo FXML manualmente; o SceneBuilder é apenas um facilitador, disponibilizando um ambiente drag and drop semelhante ao editor de elementos Sqing do NetBeans, facilitando a criação das janelas do sistema.
+Para criar os arquivos FXML utilizei uma aplicação chamada SceneBuilder cujo código-fonte pertence à Oracle. Não há a estrita necessidade de utilizar este programa durante o desenvolvimento, é totalmente possível criar e editar um arquivo FXML manualmente; o SceneBuilder é apenas um facilitador, disponibilizando um ambiente drag and drop semelhante ao editor de elementos Swing do NetBeans, facilitando a criação das janelas do sistema.
 
 ### Control
 As classes Control devem realizar uma espécie de bind com os arquivos FXML - cada arquivo de marcação possui um controlador, e um elemento manipulável da GUI (botões, campos de texto etc) devem ter uma representação no controlador através de um atributo da classe. Este aspecto parece reduzir a qualidade de manutenção do código. Por exemplo, para criar uma coluna na tabela de pessoas é necessário criar a representação da coluna na GUI e na classe Controller.
+
+Para a parte de pesquisa de entradas utiliza-se estruturas de dados internas do JavaFX que permitem o filtro e ordenação dos dados.
 
 Uma atenção especial fica na janela de edição de pessoas, que contém tanto o validador do CPF quanto a conexão com a API pública de consulta do CEP. Efetuei o parse do JSON utilizando expressões regulares. Além disso todos os campos de texto desta janela contém "condicionais" limitando a quantidade de caracteres para respeitar o limite dos campos no banco de dados, e em alguns casos fazendo com que somente números sejam aceitos.
 

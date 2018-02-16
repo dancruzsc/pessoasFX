@@ -254,7 +254,7 @@ public class EdicaoDialogController implements Initializable {
      * Método responsável pela ação do botão OK.
      */
     @FXML
-    private void acaoBotaoOK() {
+    public void acaoBotaoOK() {
         /*
             Se todos os dados estão dentro do padrão exigido transfere os dados
             para a instância de Pessoa
@@ -281,7 +281,7 @@ public class EdicaoDialogController implements Initializable {
      * Método responsável pela ação do botão Cancelar.
      */
     @FXML
-    private void acaoBotaoCancelar() {
+    public void acaoBotaoCancelar() {
         stage.close();
     }
 
@@ -289,7 +289,7 @@ public class EdicaoDialogController implements Initializable {
      * Método responsável pela ação do botão de consulta do CEP.
      */
     @FXML
-    private void acaoBotaoCEP() {
+    public void acaoBotaoCEP() {
         try {
             if (txCep.getText().length() != 8) {
                 // Verifica se o CEP está com menos de 8 caracteres
@@ -343,7 +343,7 @@ public class EdicaoDialogController implements Initializable {
      * @return {@link HashMap} contendo as duplas chave-valor do JSON
      * @throws Exception em caso de erro no webservice (ex. site fora do ar)
      */
-    private HashMap<String, String> parseJSON(String json) throws Exception {
+    public HashMap<String, String> parseJSON(String json) throws Exception {
 
         // remove as chaves que delimitam o JSON
         json = json.replaceAll("[{}]", "");
@@ -375,7 +375,7 @@ public class EdicaoDialogController implements Initializable {
      * @return {@link String} contendo o JSON com as informações resultantes.
      * @throws Exception em caso de erro no webservice (ex. site fora do ar)
      */
-    private String getInfosAPI(String cep) throws Exception {
+    public String getInfosAPI(String cep) throws Exception {
 
         // Conexão com o webservice
         StringBuilder sb = new StringBuilder();
@@ -401,7 +401,7 @@ public class EdicaoDialogController implements Initializable {
      * @return {@link Boolean} {@code true} se o campo está vazio, {@code false}
      * caso contrário
      */
-    private boolean verificaCampoVazio(TextField campo) {
+    public boolean verificaCampoVazio(TextField campo) {
         return campo.getText() == null || campo.getText().length() == 0;
     }
 
@@ -411,7 +411,7 @@ public class EdicaoDialogController implements Initializable {
      * @return {@link Boolean} {@code true} se os dados estiverem dentro do
      * padrão exigido, {@code false} caso contrário
      */
-    private boolean validarDados() {
+    public boolean validarDados() {
         String msgErro = "";
 
         if (verificaCampoVazio(txNome)) {
@@ -470,7 +470,9 @@ public class EdicaoDialogController implements Initializable {
      * @param cpf {@link String} contendo o CPF
      * @return {@code true} se o CPF estiver válido
      */
-    private boolean validarCPF(String cpf) {
+    public boolean validarCPF(String cpf) {
+        if(cpf.matches("^(.)\\1+$")) return false;
+        
         int acum1 = 0, acum2 = 0, dv1, dv2;
 
         String[] chars = cpf.split("");

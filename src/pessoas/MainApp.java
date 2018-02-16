@@ -66,7 +66,7 @@ public class MainApp extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -103,7 +103,7 @@ public class MainApp extends Application {
             dialog.showAndWait();
             return controller.isOkClicked();
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -116,5 +116,9 @@ public class MainApp extends Application {
 
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static BorderPane getJanelaPrincipal() {
+        return janelaPrincipal;
     }
 }
